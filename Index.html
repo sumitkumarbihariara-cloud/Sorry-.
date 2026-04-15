@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm Sorry ❤️</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:Arial, sans-serif;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  color:#fff;
+  text-align:center;
+  overflow:hidden;
+}
+.container{padding:20px}
+h1{font-size:42px;margin-top:20px;animation:fade 2s}
+p{font-size:20px;margin-top:15px;min-height:60px}
+.swiper{width:90%;height:250px;margin-top:20px}
+.swiper-slide img{width:100%;height:100%;object-fit:cover;border-radius:20px}
+button{
+  margin-top:20px;
+  padding:12px 25px;
+  border:none;
+  border-radius:25px;
+  background:#fff;
+  color:#ff4d6d;
+  font-size:16px;
+  cursor:pointer;
+}
+.music-btn{position:fixed;top:10px;right:10px}
+@keyframes fade{
+  from{opacity:0;transform:translateY(-20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.heart{
+  position:absolute;
+  width:20px;
+  height:20px;
+  background:red;
+  transform:rotate(45deg);
+  animation:float 6s infinite;
+}
+.heart::before,.heart::after{
+  content:"";
+  position:absolute;
+  width:20px;height:20px;
+  background:red;border-radius:50%
+}
+.heart::before{top:-10px}
+.heart::after{left:-10px}
+@keyframes float{
+  0%{transform:translateY(100vh) rotate(45deg)}
+  100%{transform:translateY(-10vh) rotate(45deg)}
+}
+</style>
+</head>
+<body><div id="hearts"></div><div class="container">
+  <h1>I'm Sorry ❤️</h1>
+  <p id="msg"></p>  <!-- Slider -->  <div class="swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="photo1.jpg"></div>
+      <div class="swiper-slide"><img src="photo2.jpg"></div>
+      <div class="swiper-slide"><img src="photo3.jpg"></div>
+    </div>
+  </div><button onclick="share()">Share on WhatsApp</button>
+
+</div><button class="music-btn" onclick="toggleMusic()">🔊</button>
+
+<audio id="bgm" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio><script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script><script>
+// Typing Effect
+let name = new URLSearchParams(window.location.search).get('name') || 'Love';
+let text = `Dear ${name}, Mujhse galti ho gayi… please maaf kar do ❤️`;
+let i=0;
+function type(){
+  if(i<text.length){
+    document.getElementById("msg").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(type,40);
+  }
+}
+type();
+
+// Swiper
+new Swiper('.swiper',{
+  loop:true,
+  autoplay:{delay:2000}
+});
+
+// Hearts
+for(let i=0;i<20;i++){
+  let h=document.createElement('div');
+  h.className='heart';
+  h.style.left=Math.random()*100+'%';
+  h.style.animationDuration=(3+Math.random()*3)+'s';
+  document.getElementById('hearts').appendChild(h);
+}
+
+// Music
+document.getElementById('bgm').play().catch(()=>{});
+function toggleMusic(){
+  let m=document.getElementById('bgm');
+  if(m.paused){m.play()}else{m.pause()}
+}
+
+// Share
+function share(){
+  let url=window.location.href;
+  let msg="Please dekhna ye ❤️ "+url;
+  window.open("https://wa.me/?text="+encodeURIComponent(msg));
+}
+</script></body>
+</html>
